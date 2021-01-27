@@ -1,12 +1,27 @@
 
 import random
 import time
+
+
+def setcredit():
+
+    pcredit = int(input("Wie viel Geld möchten Sie setzen? "))
+
+    if pcredit > credit:
+        print("Sie haben leider nur,", credit)
+        pcredit = setcredit()
+
+    return pcredit
+
+
 yesno = input("Guten Tag! Interessiert? (y/n)")
 
 cards = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Bube", "Dame", "König", "Ass"]
 
 if yesno == "y":
 
+    credit = int(input("Wie viel Geld möchten Sie einzahlen? "))
+    setpcredit = 0
     rules = input("Kennst du die Regeln bereits? (y/n): ")
 
     if rules == "n":
@@ -40,9 +55,21 @@ if yesno == "y":
 
         while True:
 
+            if credit == 0:
+                print("Sie haben leider ihr gesamtes Geld verspielt.")
+
+                playagain = input("Möchten Sie erneut einzahlen? (y/n)")
+                if playagain == "y":
+                    credit = int(input("Wie viel Geld möchten Sie einzahlen? "))
+
+                else:
+                    quit()
             playyn = input("Möchtest du spielen? (y/n)")
+            setpcredit = setcredit()
+            print(setpcredit)
 
             if playyn == "y":
+
                 dcard1 = random.randint(0, 12)
                 dcard2 = random.randint(0, 12)
 
@@ -152,6 +179,9 @@ if yesno == "y":
                     if pscore > 21:
                         print(pscore)
                         print("Leider verloren")
+                        credit = credit - setpcredit
+                        print(credit)
+
                         time.sleep(2)
                         x = 2
 
@@ -189,22 +219,28 @@ if yesno == "y":
                         print("Gewonnen!")
                         print("Dein Score ist: ", pscore)
                         print("Der Score des Dealers ist: ", dscore)
+                        credit = credit + 2 * setpcredit
+                        print(credit)
 
                     else:
                         if pscore > dscore:
                             print("Gewonnen!")
                             print("Dein Score ist: ", pscore)
                             print("Der Score des Dealers ist: ", dscore)
-
+                            credit = credit + 2 * setpcredit
+                            print(credit)
                         elif dscore > pscore:
                             print("Leider verloren.")
                             print("Dein Score ist: ", pscore)
                             print("Der Score des Dealers ist: ", dscore)
+                            credit = credit - setpcredit
+                            print(credit)
 
                         else:
                             print("Unentschieden")
                             print("Dein Score ist: ", pscore)
                             print("Der Score des Dealers ist: ", dscore)
+                            print(credit)
 
             elif playyn == "n":
                 print("Ok, dann nicht :/")
